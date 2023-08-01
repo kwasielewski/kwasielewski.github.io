@@ -3,7 +3,7 @@
 
 # About me
 
-I am an undergratuate computer science student at University of Wrocław.
+I am an undergraduate computer science student at University of Wrocław.
 I am also working as an AI intern at [Antmicro](https://antmicro.com/) :ant:.
 
 I am [Julia](https://julialang.org/) and functional programming enthusiast.
