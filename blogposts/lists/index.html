@@ -5,11 +5,23 @@
 <p>In Julia <code>struct</code> is used to define new data types. By default, all fields are immutable, so we don&#39;t have to specify it explicitly. Empty list contain no values, so it has no fields. We can now create an empty list by calling its constructor:</p>
 <pre><code class="julia hljs">Nil()</code></pre>
 <p>It may seem too verbose to use parentheses to create an empty list, but we need a way to differentiate between a type and a value.</p>
-<p>In the next step we&#39;ll specify what a List is. At first the definition may seem a bit complicated, but the benefits will become clear later. As one may know, a list is either empty or contains a node with value and another list. Because list may take one of two forms, we&#39;ll use <code>Union</code> type. The value inside a node may be of any type so we&#39;ll use a type parameter. We would like to have a something like this:</p>
+<p>In the next step we&#39;ll specify what a List is. As one may know, a list is either an empty list or a node with value and another list. Because list may take one of two forms, we&#39;ll use <code>Union</code> type. The value inside a node may be of any type so we&#39;ll use a type parameter. We would like to have a something like this:</p>
 <pre><code class="julia hljs">List{T} = <span class=hljs-built_in >Union</span>{Nil, Node{T}}</code></pre>
-<p>but we don&#39;t now yet what <code>Node</code> is.</p>
+<p>but we don&#39;t now yet what <code>Node</code> is. So let&#39;s define it:</p>
+<pre><code class="julia hljs"><span class=hljs-keyword >struct</span> Node{T}
+    value::T
+    next::<span class=hljs-built_in >Union</span>{Nil, Node{T}}
+<span class=hljs-keyword >end</span></code></pre>
+<p>Now that we have a definition of <code>Node</code> we can finally define <code>List</code>.</p>
+<p>With all the definitions in place we can create a list:</p>
+<pre><code class="julia hljs">Node(<span class=hljs-number >1</span>, Node(<span class=hljs-number >2</span>, Nil()))</code></pre>
+<p>The output for this expression is:</p>
+<pre><code class="julia hljs">Node{<span class=hljs-built_in >Int64</span>}(<span class=hljs-number >1</span>, Node{<span class=hljs-built_in >Int64</span>}(<span class=hljs-number >2</span>, Nil()))</code></pre>
+<p>If we try to create a list with values of different types, we&#39;ll get an error:</p>
+<pre><code class="julia hljs">julia&gt; Node(<span class=hljs-number >1</span>, Node(<span class=hljs-number >2.0</span>, Nil()))
+ERROR: <span class=hljs-built_in >MethodError</span>: no method matching Node(::<span class=hljs-built_in >Int64</span>, ::Node{<span class=hljs-built_in >Float64</span>})</code></pre>
 <div class=page-foot >
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Krzysztof Wasielewski. Last modified: August 03, 2023.
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> Krzysztof Wasielewski. Last modified: August 05, 2023.
     Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
 </div>
 </div>
